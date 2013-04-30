@@ -1,0 +1,26 @@
+<!--
+<div class="well">
+{{cityForecast | json}}
+</div>
+-->
+<div ng-show="errorMessage" class="row-fluid">
+	<div class="span6 alert alert-error">{{errorMessage}}</div>
+</div>
+<h1 ng-show="cityForecast">{{cityForecast.location}}</h1>
+<div ng-show="cityForecast" class="row-fluid">
+	<div class="span12">
+		<div class="well center">
+			<div class="row-fluid">
+				<div class="weather span2"><img alt="{{cityForecast.weather}}" ng-src="{{cityForecast.iconUrl}}"></div>
+				<dl class="dl-horizontal span10">
+					<dt>Weather:</dt>
+					<dd>{{cityForecast.weather}}</dd>
+					<dt>Current:</dt>
+					<dd>{{cityForecast.temp()|IncludeUnitsFilter}}</dd>
+					<dt>Wind:</dt>
+					<dd>{{cityForecast.wind_string}}</dd>
+				</dl>
+			</div>
+		</div>
+	</div>
+</div>
