@@ -17,7 +17,7 @@ sample.config = function ($stateProvider, $routeProvider, $urlRouterProvider) {
 	
 	$routeProvider
 		.when('/user/:id', {
-			redirectTo: '/contacts/:id',
+			redirectTo: '/contacts/:id'
 		});
 
 	$stateProvider
@@ -32,18 +32,18 @@ sample.config = function ($stateProvider, $routeProvider, $urlRouterProvider) {
 		url: '/about',
 		templateProvider: ['$timeout', function ($timeout) {
 			return $timeout(function () { return "Hello world" }, 100);
-		}],
+		}]
 	})
 	.state('contacts', {
 		url: '/contacts',
-		abstract: true,
+		"abstract": true,
 		templateUrl: '/views/contacts.html',
-		controller: 'ContactsController',
+		controller: 'ContactsController'
 	})
 	.state('contacts.list', {
 		// parent: 'contacts',
 		url: '',
-		templateUrl: '/views/contacts.list.html',
+		templateUrl: '/views/contacts.list.html'
 	})
 	.state('contacts.detail', {
 		// parent: 'contacts',
@@ -51,10 +51,10 @@ sample.config = function ($stateProvider, $routeProvider, $urlRouterProvider) {
 		views: {
 			'': {
 				templateUrl: '/views/contacts.detail.html',
-				controller: 'ContactController',
+				controller: 'ContactController'
 			},
 			'hint@': {
-				template: 'This is contacts.detail populating the view "hint@"',
+				template: 'This is contacts.detail populating the view "hint@"'
 			},
 			'menu': {
 				templateProvider: ['$stateParams', function ($stateParams){
@@ -62,9 +62,9 @@ sample.config = function ($stateProvider, $routeProvider, $urlRouterProvider) {
 					// $stateParams are the parameters for the new state we're transitioning to, even
 					// though the global '$stateParams' has not been updated yet.
 					return '<hr><small class="muted">Contact ID: ' + $stateParams.contactId + '</small>';
-				}],
-			},
-		},
+				}]
+			}
+		}
 	})
 	.state('contacts.detail.item', {
 		// parent: 'contacts.detail',
@@ -72,12 +72,12 @@ sample.config = function ($stateProvider, $routeProvider, $urlRouterProvider) {
 		views: {
 			'': {
 				templateUrl: '/views/contacts.detail.item.html',
-				controller: 'ContactDetailsItemController',
+				controller: 'ContactDetailsItemController'
 			},
 			'hint@': {
-				template: 'Overriding the view "hint@"',
-			},
-		},
+				template: 'Overriding the view "hint@"'
+			}
+		}
 	})
 	.state('contacts.detail.item.edit', {
 		views: {
@@ -88,9 +88,9 @@ sample.config = function ($stateProvider, $routeProvider, $urlRouterProvider) {
 					$scope.done = function () {
 						$state.transitionTo('contacts.detail.item', $stateParams);
 					};
-				}],
-			},
-		},
+				}]
+			}
+		}
 	});
 };
 

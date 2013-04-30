@@ -313,7 +313,7 @@ module.exports = function (grunt) {
     
         // [REQUIRED] One of the two following options is required:
         //inputs: 'app/scripts/templates.js',//'string|Array', // input files (can just be the entry point)
-        namespaces: 'sample', //'string|Array', // namespaces
+        namespaces: 'sample.config', //'string|Array', // namespaces
     
         compilerFile: 'closure-compiler/compiler.jar',
     
