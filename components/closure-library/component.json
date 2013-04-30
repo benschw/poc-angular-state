@@ -1,0 +1,9 @@
+{
+  "name": "closure-library",
+  "version": "0.0.0",
+  "commit": "ae900d2fbb83803f14444a7d022a8bc0348aa57d",
+  "repository": {
+    "type": "local-repo",
+    "path": "closure-library"
+  }
+}
