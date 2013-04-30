@@ -333,7 +333,8 @@ module.exports = function (grunt) {
           compilation_level: "ADVANCED_OPTIMIZATIONS",
           warning_level: "VERBOSE",
           jscomp_error: [
-            "checkTypes", "accessControls", "invalidCasts", 
+            // "checkTypes", 
+            "accessControls", "invalidCasts", 
             "checkVars", "ambiguousFunctionDecl", "suspiciousCode", "const", "es5Strict"
           ]
         },

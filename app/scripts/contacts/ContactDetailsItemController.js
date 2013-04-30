@@ -1,6 +1,7 @@
 'use strict';
 
 goog.provide('contacts.ContactDetailsItemController');
+goog.require('sample.state');
 
 /** 
  * @param {angular.Scope} $scope
@@ -10,11 +11,18 @@ goog.provide('contacts.ContactDetailsItemController');
  * @constructor
  * @suppress {checkTypes}
  */
-contacts.ContactDetailsItemController = function ($scope, $stateParams, $state) {
-	$scope.item = findById($scope.contact.items, $stateParams.itemId);
+contacts.ContactDetailsItemController = function ($scope, $stateParams, $state, Contact) {
+	var findById = function (a, id) {
+		for (var i=0; i<a.length; i++) {
+			if (a[i].id == id) return a[i];
+		}
+	}
+
+	var contact = Contact.get({id: $stateParams.contactId});
+	$scope['item'] = findById(contact.items, $stateParams.itemId);
 	$scope.edit = function () {
-		$state.transitionTo('contacts.detail.item.edit', $stateParams);
+		$state.transitionTo(sample.state.contactDetailsItemEdit, $stateParams);
 	};
 };
 
-contacts.ContactDetailsItemController['$inject'] = ['$scope', '$stateParams', '$state'];
+contacts.ContactDetailsItemController['$inject'] = ['$scope', '$stateParams', '$state', 'Contact'];

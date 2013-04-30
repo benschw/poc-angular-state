@@ -8,8 +8,9 @@ goog.provide('contacts.ContactController');
  * @ngInject 
  * @constructor
  */
-contacts.ContactController = function ($scope, $stateParams) {
-	$scope.contact = findById($scope.contacts, $stateParams.contactId);
-}
+contacts.ContactController = function ($scope, $stateParams, Contact) {
+	$scope['contact'] = Contact.get({id: $stateParams['contactId']});
+};
 
-contacts.ContactController['$inject'] = ['$scope', '$stateParams'];
+contacts.ContactController['$inject'] = ['$scope', '$stateParams', 'Contact'];
+

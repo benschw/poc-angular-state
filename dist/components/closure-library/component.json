@@ -4,6 +4,55 @@
   "commit": "ae900d2fbb83803f14444a7d022a8bc0348aa57d",
   "repository": {
     "type": "local-repo",
-    "path": "closure-library"
-  }
+    "path": "/Users/ben.schwartz/Unversioned/demo2/app/components/closure-library"
+  },
+  "contributors": [
+    {
+      "name": "Google Inc."
+    },
+    {
+      "name": "Mohamed Mansour",
+      "email": "hello@mohamedmansour.com"
+    },
+    {
+      "name": "Bjorn Tipling",
+      "email": "bjorn.tipling@gmail.com"
+    },
+    {
+      "name": "SameGoal LLC",
+      "email": "help@samegoal.com"
+    },
+    {
+      "name": "Guido Tapia",
+      "email": "guido.tapia@gmail.com"
+    },
+    {
+      "name": "Andrew Mattie",
+      "email": "amattie@gmail.com"
+    },
+    {
+      "name": "Ilia Mirkin",
+      "email": "ibmirkin@gmail.com"
+    },
+    {
+      "name": "Ivan Kozik",
+      "email": "ivan.kozik@gmail.com"
+    },
+    {
+      "name": "Rich Dougherty",
+      "email": "rich@rd.gen.nz"
+    },
+    {
+      "name": "Chad Killingsworth",
+      "email": "chadkillingsworth@missouristate.edu"
+    },
+    {
+      "name": "Dan Pupius",
+      "email": "dan.pupius@gmail.com"
+    }
+  ],
+  "readme": "Closure Library is a powerful, low level JavaScript library designed\nfor building complex and scalable web applications. It is used by many\nmajor Google web applications, such as Gmail and Google Docs.\n\nFor more information about Closure Library, visit:\nhttp://code.google.com/closure/library\n",
+  "readmeFilename": "README",
+  "_id": "closure-library@0.0.0",
+  "description": "Closure Library is a powerful, low level JavaScript library designed for building complex and scalable web applications. It is used by many major Google web applications, such as Gmail and Google Docs."
 }
