@@ -23,7 +23,7 @@ sample.config = function ($stateProvider, $routeProvider, $urlRouterProvider) {
 	$stateProvider
 	.state('home', {
 		url: '/',
-		templateUrl: '/views/main.html',
+		templateUrl: 'views/main.html',
 		controller: ['$scope', function ($scope) {
 			$scope.awesomeThings = ['AngularJS', 'Angular-Ui-Router', 'Bootstrap', 'Closure' ]
 		}]
@@ -37,20 +37,20 @@ sample.config = function ($stateProvider, $routeProvider, $urlRouterProvider) {
 	.state('contacts', {
 		url: '/contacts',
 		"abstract": true,
-		templateUrl: '/views/contacts.html',
+		templateUrl: 'views/contacts.html',
 		controller: 'ContactsController'
 	})
 	.state('contacts.list', {
 		// parent: 'contacts',
 		url: '',
-		templateUrl: '/views/contacts.list.html'
+		templateUrl: 'views/contacts.list.html'
 	})
 	.state('contacts.detail', {
 		// parent: 'contacts',
 		url: '/{contactId}',
 		views: {
 			'': {
-				templateUrl: '/views/contacts.detail.html',
+				templateUrl: 'views/contacts.detail.html',
 				controller: 'ContactController'
 			},
 			'hint@': {
@@ -71,7 +71,7 @@ sample.config = function ($stateProvider, $routeProvider, $urlRouterProvider) {
 		url: '/item/:itemId',
 		views: {
 			'': {
-				templateUrl: '/views/contacts.detail.item.html',
+				templateUrl: 'views/contacts.detail.item.html',
 				controller: 'ContactDetailsItemController'
 			},
 			'hint@': {
@@ -82,7 +82,7 @@ sample.config = function ($stateProvider, $routeProvider, $urlRouterProvider) {
 	.state('contacts.detail.item.edit', {
 		views: {
 			'@contacts.detail': {
-				templateUrl: '/views/contacts.detail.item.edit.html',
+				templateUrl: 'views/contacts.detail.item.edit.html',
 				controller: ['$scope', '$stateParams', '$state', function ($scope,   $stateParams,   $state) {
 					$scope.item = findById($scope.contact.items, $stateParams.itemId);
 					$scope.done = function () {
