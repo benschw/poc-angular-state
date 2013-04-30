@@ -1,0 +1,11 @@
+../app/scripts/app.js
+../app/scripts/controllers/AllCitiesController.js
+../app/scripts/controllers/CityDetailsController.js
+../app/scripts/controllers/module.js
+../app/scripts/directives/module.js
+../app/scripts/directives/TemperaturePreference.js
+../app/scripts/services/module.js
+../app/scripts/services/WeatherService.js
+../app/scripts/state/module.js
+../app/scripts/state/TemperatureFormat.js
+../app/scripts/templates.js

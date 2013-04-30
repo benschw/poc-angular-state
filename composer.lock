@@ -1,0 +1,324 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
+    ],
+    "hash": "0d298730c473bfbd15f6a8b9c8cf636a",
+    "packages": [
+        {
+            "name": "fliglio/flfc",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/benschw/fliglio-flfc.git",
+                "reference": "7df7c885f219b46d96524312a41b921ae2031f0c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/benschw/fliglio-flfc/zipball/7df7c885f219b46d96524312a41b921ae2031f0c",
+                "reference": "7df7c885f219b46d96524312a41b921ae2031f0c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Fliglio\\Flfc\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Ben Schwartz",
+                    "email": "benschw@gmail.com"
+                }
+            ],
+            "time": "2013-04-11 16:09:48"
+        },
+        {
+            "name": "fliglio/fltk",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/benschw/fliglio-fltk.git",
+                "reference": "01b96731272365dffca46fc1428bafe7203410ab"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/benschw/fliglio-fltk/zipball/01b96731272365dffca46fc1428bafe7203410ab",
+                "reference": "01b96731272365dffca46fc1428bafe7203410ab",
+                "shasum": ""
+            },
+            "require": {
+                "fliglio/flfc": "dev-master",
+                "php": ">=5.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Fliglio\\Fltk\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Ben Schwartz",
+                    "email": "benschw@gmail.com"
+                }
+            ],
+            "time": "2013-04-17 16:01:37"
+        },
+        {
+            "name": "fliglio/routing",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/benschw/fliglio-routing.git",
+                "reference": "f2ce7f5964f5307c7e77cd8383521d2ad2bba450"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/benschw/fliglio-routing/zipball/f2ce7f5964f5307c7e77cd8383521d2ad2bba450",
+                "reference": "f2ce7f5964f5307c7e77cd8383521d2ad2bba450",
+                "shasum": ""
+            },
+            "require": {
+                "fliglio/flfc": "dev-master",
+                "fliglio/web": "dev-master",
+                "php": ">=5.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Fliglio\\Routing\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Ben Schwartz",
+                    "email": "benschw@gmail.com"
+                }
+            ],
+            "time": "2013-04-11 16:04:14"
+        },
+        {
+            "name": "fliglio/web",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/benschw/fliglio-web.git",
+                "reference": "6ebb059c92a03c64090794be8f3621a314815953"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/benschw/fliglio-web/zipball/6ebb059c92a03c64090794be8f3621a314815953",
+                "reference": "6ebb059c92a03c64090794be8f3621a314815953",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Fliglio\\Web\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Ben Schwartz",
+                    "email": "benschw@gmail.com"
+                }
+            ],
+            "time": "2013-04-11 16:01:18"
+        },
+        {
+            "name": "jyggen/curl",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jyggen/curl.git",
+                "reference": "9a2713ca10dce192e7f20173ea5e4c3c9d165feb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jyggen/curl/zipball/9a2713ca10dce192e7f20173ea5e4c3c9d165feb",
+                "reference": "9a2713ca10dce192e7f20173ea5e4c3c9d165feb",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "php": ">=5.3.0",
+                "symfony/http-foundation": ">=2.2,<3.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "dev-master"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "jyggen\\Curl": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jonas Stendahl",
+                    "email": "jonas.stendahl@gmail.com"
+                }
+            ],
+            "description": "A simple and lightweight cURL library with support for multiple requests in parallel.",
+            "homepage": "http://docs.jyggen.com/curl",
+            "keywords": [
+                "Multi-thread",
+                "bot",
+                "curl",
+                "http",
+                "laravel",
+                "parallel",
+                "spider"
+            ],
+            "time": "2013-04-17 13:18:14"
+        },
+        {
+            "name": "symfony/http-foundation",
+            "version": "dev-master",
+            "target-dir": "Symfony/Component/HttpFoundation",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/HttpFoundation.git",
+                "reference": "f7778acd885f1bffde426967790248f0083d1dd6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/HttpFoundation/zipball/f7778acd885f1bffde426967790248f0083d1dd6",
+                "reference": "f7778acd885f1bffde426967790248f0083d1dd6",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.3-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Symfony\\Component\\HttpFoundation\\": ""
+                },
+                "classmap": [
+                    "Symfony/Component/HttpFoundation/Resources/stubs"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "http://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony HttpFoundation Component",
+            "homepage": "http://symfony.com",
+            "time": "2013-04-18 05:30:58"
+        },
+        {
+            "name": "symfony/serializer",
+            "version": "dev-master",
+            "target-dir": "Symfony/Component/Serializer",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/Serializer.git",
+                "reference": "3eb823dfedca13a6eeb66f882200d0afbe2168cd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/Serializer/zipball/3eb823dfedca13a6eeb66f882200d0afbe2168cd",
+                "reference": "3eb823dfedca13a6eeb66f882200d0afbe2168cd",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.3-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Symfony\\Component\\Serializer\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "http://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Serializer Component",
+            "homepage": "http://symfony.com",
+            "time": "2013-04-11 06:50:46"
+        }
+    ],
+    "packages-dev": [
+
+    ],
+    "aliases": [
+
+    ],
+    "minimum-stability": "dev",
+    "stability-flags": {
+        "fliglio/flfc": 20,
+        "fliglio/routing": 20,
+        "fliglio/web": 20,
+        "fliglio/fltk": 20
+    },
+    "platform": {
+        "php": ">=5.3"
+    },
+    "platform-dev": [
+
+    ]
+}
