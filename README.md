@@ -1,6 +1,6 @@
 ## angular-ui-state POC
 
-[https://github.com/angular-ui/ui-router]
+https://github.com/angular-ui/ui-router
 
 
-[http://benschw.github.io/poc-angular-state/index.html]
+http://benschw.github.io/poc-angular-state/index.html
