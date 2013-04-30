@@ -8,6 +8,7 @@ goog.provide('contacts.ContactDetailsItemController');
  * @param {*} $state @TODO
  * @ngInject 
  * @constructor
+ * @suppress {checkTypes}
  */
 contacts.ContactDetailsItemController = function ($scope, $stateParams, $state) {
 	$scope.item = findById($scope.contact.items, $stateParams.itemId);

@@ -3,6 +3,7 @@
 goog.addDependency('../../../../scripts/app.js', ['sample.config'], ['contacts']);
 goog.addDependency('../../../../scripts/contacts/ContactController.js', ['contacts.ContactController'], []);
 goog.addDependency('../../../../scripts/contacts/ContactDetailsItemController.js', ['contacts.ContactDetailsItemController'], []);
+goog.addDependency('../../../../scripts/contacts/ContactDetailsItemEditController.js', ['contacts.ContactDetailsItemEditController'], []);
 goog.addDependency('../../../../scripts/contacts/ContactsController.js', ['contacts.ContactsController'], []);
 goog.addDependency('../../../../scripts/contacts/module.js', ['contacts'], ['contacts.ContactController', 'contacts.ContactDetailsItemController', 'contacts.ContactsController']);
 goog.addDependency('../../../../scripts/services/CityForecast.js', ['WeatherApp.services.CityForecast', 'WeatherApp.services.CityForecastFactory'], []);

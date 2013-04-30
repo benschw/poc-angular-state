@@ -330,11 +330,11 @@ module.exports = function (grunt) {
           */
           externs: ["closure-compiler/angular-externs.js", "closure-compiler/custom-externs.js"],
           output_wrapper: "(function(){%output%})();",
-          compilation_level: "SIMPLE_OPTIMIZATIONS",
+          compilation_level: "ADVANCED_OPTIMIZATIONS",
           warning_level: "VERBOSE",
           jscomp_error: [
-            // "checkTypes", "accessControls", "invalidCasts", 
-            // "checkVars", "ambiguousFunctionDecl", "suspiciousCode", "const", "es5Strict"
+            "checkTypes", "accessControls", "invalidCasts", 
+            "checkVars", "ambiguousFunctionDecl", "suspiciousCode", "const", "es5Strict"
           ]
         },
         // [OPTIONAL] Set exec method options

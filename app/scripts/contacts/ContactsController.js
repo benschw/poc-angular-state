@@ -7,6 +7,7 @@ goog.provide('contacts.ContactsController');
  * @param {*} $state @TODO
  * @ngInject 
  * @constructor
+ * @suppress {checkTypes}
  */
 contacts.ContactsController = function ($scope, $state) {
 	$scope.contacts = [{
