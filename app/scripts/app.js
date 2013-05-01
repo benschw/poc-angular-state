@@ -20,12 +20,7 @@ sample.config = function ($stateProvider, $routeProvider, $urlRouterProvider) {
 
 	$stateProvider
 		.state(sample.state.home)
-		.state(sample.state.about)
-		.state(sample.state.contacts)
-		.state(sample.state.contactList)
-		.state(sample.state.contactDetails)
-		.state(sample.state.contactDetailsItem)
-		.state(sample.state.contactDetailsItemEdit);
+		.state(sample.state.about);
 };
 
 angular.module('sample', ['ui.compat', 'contacts']);

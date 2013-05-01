@@ -1,3 +1,7 @@
+goog.require('goog.dom');
+goog.require('goog.dom.query');
+goog.require('goog.testing.asserts');  // assertThrows
+
 goog.setTestOnly('query_test');
 
 function testBasicSelectors() {
@@ -123,8 +127,8 @@ function testEmptyPseudoSelector() {
   assertQuery(1, 'h3 :not(:empty)');
 }
 
-function testIdsWithColons() {
-  assertQuery(1, '#silly\\:id\\:\\:with\\:colons');
+function testIdsWithColons(){
+  assertQuery(1, "#silly\\:id\\:\\:with\\:colons");
 }
 
 function testOrder() {

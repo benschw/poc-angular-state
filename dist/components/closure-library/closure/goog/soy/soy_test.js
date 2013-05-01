@@ -16,7 +16,6 @@
  * @fileoverview Provides test helpers for Soy tests.
  */
 
-/** @suppress {extraProvide} */
 goog.provide('goog.soy.testHelper');
 goog.setTestOnly('goog.soy.testHelper');
 
@@ -25,7 +24,6 @@ goog.require('goog.soy.data.SanitizedContent');
 goog.require('goog.soy.data.SanitizedContentKind');
 goog.require('goog.string');
 goog.require('goog.userAgent');
-goog.require('goog.dom.TagName');
 
 
 /**
@@ -42,7 +40,7 @@ function SanitizedContentSubclass(content, kind) {
   // IMPORTANT! No superclass chaining to avoid exception being thrown.
   this.content = content;
   this.contentKind = kind;
-}
+};
 goog.inherits(SanitizedContentSubclass, goog.soy.data.SanitizedContent);
 
 
@@ -103,9 +101,9 @@ example.sanitizedHtmlTemplate = function(opt_data, opt_sb, opt_injectedData) {
 };
 
 
-example.sanitizedHtmlAttributesTemplate =
+example.sanitizedHtmlAttributeTemplate =
     function(opt_data, opt_sb, opt_injectedData) {
-  return makeSanitizedContent('foo="bar"',
+  return makeSanitizedContent('Hello World',
       goog.soy.data.SanitizedContentKind.ATTRIBUTES);
 };
 
@@ -119,7 +117,7 @@ example.sanitizedCssTemplate =
 
 example.unsanitizedTextTemplate =
     function(opt_data, opt_sb, opt_injectedData) {
-  return makeSanitizedContent('I <3 Puppies & Kittens',
+  return makeSanitizedContent('Hello World',
       goog.soy.data.SanitizedContentKind.TEXT);
 };
 
@@ -127,17 +125,16 @@ example.unsanitizedTextTemplate =
 example.templateSpoofingSanitizedContentString =
     function(opt_data, opt_sb, opt_injectedData) {
   return makeSanitizedContent('Hello World',
-      // This is to ensure we're using triple-equals against a unique Javascript
-      // object.  For example, in Javascript, consider ({}) == '[Object object]'
-      // is true.
-      goog.soy.data.SanitizedContentKind.HTML.toString());
+    // This is to ensure we're using triple-equals against a unique Javascript
+    // object.  For example, in Javascript, consider ({}) == '[Object object]'
+    // is true.
+    goog.soy.data.SanitizedContentKind.HTML.toString());
 };
 
 
 //
 // Test helper functions.
 //
-
 
 /**
  * Retrieves the content of document fragment as HTML.

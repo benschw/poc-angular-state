@@ -1,7 +1,7 @@
 'use strict';
 
 goog.provide('contacts.ContactDetailsItemController');
-goog.require('sample.state');
+goog.require('contacts.state');
 
 /** 
  * @param {angular.Scope} $scope
@@ -21,7 +21,7 @@ contacts.ContactDetailsItemController = function ($scope, $stateParams, $state, 
 	var contact = Contact.get({id: $stateParams.contactId});
 	$scope['item'] = findById(contact.items, $stateParams.itemId);
 	$scope.edit = function () {
-		$state.transitionTo(sample.state.contactDetailsItemEdit, $stateParams);
+		$state.transitionTo(contacts.state.contactDetailsItemEdit, $stateParams);
 	};
 };
 

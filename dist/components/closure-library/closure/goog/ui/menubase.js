@@ -22,6 +22,7 @@ goog.provide('goog.ui.MenuBase');
 goog.require('goog.events.EventHandler');
 goog.require('goog.events.EventType');
 goog.require('goog.events.KeyHandler');
+goog.require('goog.events.KeyHandler.EventType');
 goog.require('goog.ui.Popup');
 
 

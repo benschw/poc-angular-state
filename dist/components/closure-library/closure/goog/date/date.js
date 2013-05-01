@@ -27,7 +27,6 @@ goog.provide('goog.date.month');
 goog.provide('goog.date.weekDay');
 
 goog.require('goog.asserts');
-/** @suppress {extraRequire} */
 goog.require('goog.date.DateLike');
 goog.require('goog.i18n.DateTimeSymbols');
 goog.require('goog.string');
@@ -1206,10 +1205,9 @@ goog.date.Date.prototype.toUTCIsoString = function(opt_verbose, opt_tz) {
  * @return {boolean} Whether the given date is equal to this one.
  */
 goog.date.Date.prototype.equals = function(other) {
-  return !!(other &&
-            this.getYear() == other.getYear() &&
-            this.getMonth() == other.getMonth() &&
-            this.getDate() == other.getDate());
+  return this.getYear() == other.getYear() &&
+         this.getMonth() == other.getMonth() &&
+         this.getDate() == other.getDate();
 };
 
 
@@ -1474,15 +1472,6 @@ goog.date.DateTime.prototype.setUTCSeconds = function(seconds) {
  */
 goog.date.DateTime.prototype.setUTCMilliseconds = function(ms) {
   this.date_.setUTCMilliseconds(ms);
-};
-
-
-/**
- * @return {boolean} Whether the datetime is aligned to midnight.
- */
-goog.date.DateTime.prototype.isMidnight = function() {
-  return this.getHours() == 0 && this.getMinutes() == 0 &&
-      this.getSeconds() == 0 && this.getMilliseconds() == 0;
 };
 
 

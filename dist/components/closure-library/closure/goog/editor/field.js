@@ -25,8 +25,6 @@
 goog.provide('goog.editor.Field');
 goog.provide('goog.editor.Field.EventType');
 
-goog.require('goog.a11y.aria');
-goog.require('goog.a11y.aria.Role');
 goog.require('goog.array');
 goog.require('goog.asserts');
 goog.require('goog.async.Delay');
@@ -543,7 +541,6 @@ goog.editor.Field.prototype.resetOriginalElemProperties = function() {
   var field = this.getOriginalElement();
   field.removeAttribute('contentEditable');
   field.removeAttribute('g_editable');
-  field.removeAttribute('role');
 
   if (!this.id) {
     field.removeAttribute('id');
@@ -647,9 +644,9 @@ goog.editor.Field.CTRL_KEYS_CAUSING_CHANGES_ = {
   88: true // X
 };
 
-if (goog.userAgent.WINDOWS && !goog.userAgent.GECKO) {
-  // In IE and Webkit, input from IME (Input Method Editor) does not generate a
-  // keypress event so we have to rely on the keydown event. This way we have
+if (goog.userAgent.IE) {
+  // In IE input from IME (Input Method Editor) does not generate keypress
+  // event so we have to rely on the keydown event. This way we have
   // false positives while the user is using keyboard to select the
   // character to input, but it is still better than the false negatives
   // that ignores user's final input at all.
@@ -750,7 +747,6 @@ goog.editor.Field.prototype.setupFieldObject = function(field) {
   this.isModified_ = false;
   this.isEverModified_ = false;
   field.setAttribute('g_editable', 'true');
-  goog.a11y.aria.setRole(field, goog.a11y.aria.Role.TEXTBOX);
 };
 
 

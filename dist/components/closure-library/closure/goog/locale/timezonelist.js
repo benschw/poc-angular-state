@@ -17,7 +17,6 @@
  * @suppress {deprecated} Use goog.i18n instead.
  */
 
-/** @suppress {extraProvide} */
 goog.provide('goog.locale.TimeZoneList');
 
 goog.require('goog.locale');
@@ -112,7 +111,7 @@ goog.locale.getTimeZoneNameList_ = function(nameType, opt_resource) {
   if (!opt_resource) {
     opt_resource = goog.locale.getRegionSubTag(locale);
   }
-  // if there is no region subtag, use the language itself as the resource
+    // if there is no region subtag, use the language itself as the resource
   if (!opt_resource) {
     opt_resource = locale;
   }

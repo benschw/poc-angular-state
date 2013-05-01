@@ -24,9 +24,7 @@ goog.provide('goog.style');
 
 
 goog.require('goog.array');
-goog.require('goog.asserts');
 goog.require('goog.dom');
-goog.require('goog.dom.NodeType');
 goog.require('goog.dom.vendor');
 goog.require('goog.math.Box');
 goog.require('goog.math.Coordinate');
@@ -312,7 +310,7 @@ goog.style.setPosition = function(el, arg1, opt_arg2) {
   var x, y;
   var buggyGeckoSubPixelPos = goog.userAgent.GECKO &&
       (goog.userAgent.MAC || goog.userAgent.X11) &&
-      goog.userAgent.isVersionOrHigher('1.9');
+      goog.userAgent.isVersion('1.9');
 
   if (arg1 instanceof goog.math.Coordinate) {
     x = arg1.x;
@@ -356,7 +354,7 @@ goog.style.getClientViewportElement = function(opt_node) {
   }
 
   // In old IE versions the document.body represented the viewport
-  if (goog.userAgent.IE && !goog.userAgent.isDocumentModeOrHigher(9) &&
+  if (goog.userAgent.IE && !goog.userAgent.isDocumentMode(9) &&
       !goog.dom.getDomHelper(doc).isCss1CompatMode()) {
     return doc.body;
   }
@@ -434,7 +432,7 @@ goog.style.getOffsetParent = function(element) {
   // element.offsetParent does the right thing in IE7 and below.  In other
   // browsers it only includes elements with position absolute, relative or
   // fixed, not elements with overflow set to auto or scroll.
-  if (goog.userAgent.IE && !goog.userAgent.isDocumentModeOrHigher(8)) {
+  if (goog.userAgent.IE && !goog.userAgent.isDocumentMode(8)) {
     return element.offsetParent;
   }
 
@@ -594,7 +592,7 @@ goog.style.scrollIntoContainerView = function(element, container, opt_center) {
 goog.style.getClientLeftTop = function(el) {
   // NOTE(eae): Gecko prior to 1.9 doesn't support clientTop/Left, see
   // https://bugzilla.mozilla.org/show_bug.cgi?id=111207
-  if (goog.userAgent.GECKO && !goog.userAgent.isVersionOrHigher('1.9')) {
+  if (goog.userAgent.GECKO && !goog.userAgent.isVersion('1.9')) {
     var left = parseFloat(goog.style.getComputedStyle(el, 'borderLeftWidth'));
     if (goog.style.isRightToLeft(el)) {
       var scrollbarWidth = el.offsetWidth - el.clientWidth - left -
@@ -841,7 +839,7 @@ goog.style.getClientPosition = function(el) {
       pos.x = pageCoord.x - scrollCoord.x;
       pos.y = pageCoord.y - scrollCoord.y;
     }
-    if (goog.userAgent.GECKO && !goog.userAgent.isVersionOrHigher(12)) {
+    if (goog.userAgent.GECKO && !goog.userAgent.isVersion(12)) {
       pos = goog.math.Coordinate.sum(pos, goog.style.getCssTranslation(el));
     }
   } else {
@@ -1119,7 +1117,7 @@ goog.style.setTransparentBackgroundImage = function(el, src) {
   // It is safe to use the style.filter in IE only. In Safari 'filter' is in
   // style object but access to style.filter causes it to throw an exception.
   // Note: IE8 supports images with an alpha channel.
-  if (goog.userAgent.IE && !goog.userAgent.isVersionOrHigher('8')) {
+  if (goog.userAgent.IE && !goog.userAgent.isVersion('8')) {
     // See TODO in setOpacity.
     style.filter = 'progid:DXImageTransform.Microsoft.AlphaImageLoader(' +
         'src="' + src + '", sizingMethod="crop")';
@@ -1167,51 +1165,25 @@ goog.style.clearTransparentBackgroundImage = function(el) {
  * stylesheet.
  * @param {Element} el Element to show or hide.
  * @param {*} display True to render the element in its default style,
- *     false to disable rendering the element.
- * @deprecated Use goog.style.setElementShown instead.
+ * false to disable rendering the element.
  */
 goog.style.showElement = function(el, display) {
-  goog.style.setElementShown(el, display);
-};
-
-
-/**
- * Shows or hides an element from the page. Hiding the element is done by
- * setting the display property to "none", removing the element from the
- * rendering hierarchy so it takes up no space. To show the element, the default
- * inherited display property is restored (defined either in stylesheets or by
- * the browser's default style rules).
- *
- * Caveat 1: if the inherited display property for the element is set to "none"
- * by the stylesheets, that is the property that will be restored by a call to
- * setElementShown(), effectively toggling the display between "none" and
- * "none".
- *
- * Caveat 2: if the element display style is set inline (by setting either
- * element.style.display or a style attribute in the HTML), a call to
- * setElementShown will clear that setting and defer to the inherited style in
- * the stylesheet.
- * @param {Element} el Element to show or hide.
- * @param {*} isShown True to render the element in its default style,
- *     false to disable rendering the element.
- */
-goog.style.setElementShown = function(el, isShown) {
-  el.style.display = isShown ? '' : 'none';
+  el.style.display = display ? '' : 'none';
 };
 
 
 /**
  * Test whether the given element has been shown or hidden via a call to
- * {@link #setElementShown}.
+ * {@link #showElement}.
  *
  * Note this is strictly a companion method for a call
- * to {@link #setElementShown} and the same caveats apply; in particular, this
+ * to {@link #showElement} and the same caveats apply; in particular, this
  * method does not guarantee that the return value will be consistent with
  * whether or not the element is actually visible.
  *
  * @param {Element} el The element to test.
  * @return {boolean} Whether the element has been shown.
- * @see #setElementShown
+ * @see #showElement
  */
 goog.style.isElementShown = function(el) {
   return el.style.display != 'none';
@@ -1301,7 +1273,7 @@ goog.style.setStyles = function(element, stylesString) {
  */
 goog.style.setPreWrap = function(el) {
   var style = el.style;
-  if (goog.userAgent.IE && !goog.userAgent.isVersionOrHigher('8')) {
+  if (goog.userAgent.IE && !goog.userAgent.isVersion('8')) {
     style.whiteSpace = 'pre';
     style.wordWrap = 'break-word';
   } else if (goog.userAgent.GECKO) {
@@ -1324,7 +1296,7 @@ goog.style.setInlineBlock = function(el) {
   // Without position:relative, weirdness ensues.  Just accept it and move on.
   style.position = 'relative';
 
-  if (goog.userAgent.IE && !goog.userAgent.isVersionOrHigher('8')) {
+  if (goog.userAgent.IE && !goog.userAgent.isVersion('8')) {
     // IE8 supports inline-block so fall through to the else
     // Zoom:1 forces hasLayout, display:inline gives inline behavior.
     style.zoom = '1';
@@ -1332,7 +1304,7 @@ goog.style.setInlineBlock = function(el) {
   } else if (goog.userAgent.GECKO) {
     // Pre-Firefox 3, Gecko doesn't support inline-block, but -moz-inline-box
     // is close enough.
-    style.display = goog.userAgent.isVersionOrHigher('1.9a') ? 'inline-block' :
+    style.display = goog.userAgent.isVersion('1.9a') ? 'inline-block' :
         '-moz-inline-box';
   } else {
     // Opera, Webkit, and Safari seem to do OK with the standard inline-block
@@ -1442,7 +1414,7 @@ goog.style.setBorderBoxSize = function(element, size) {
   var isCss1CompatMode = goog.dom.getDomHelper(doc).isCss1CompatMode();
 
   if (goog.userAgent.IE &&
-      (!isCss1CompatMode || !goog.userAgent.isVersionOrHigher('8'))) {
+      (!isCss1CompatMode || !goog.userAgent.isVersion('8'))) {
     var style = element.style;
     if (isCss1CompatMode) {
       var paddingBox = goog.style.getPaddingBox(element);
@@ -1505,7 +1477,7 @@ goog.style.setContentBoxSize = function(element, size) {
   var doc = goog.dom.getOwnerDocument(element);
   var isCss1CompatMode = goog.dom.getDomHelper(doc).isCss1CompatMode();
   if (goog.userAgent.IE &&
-      (!isCss1CompatMode || !goog.userAgent.isVersionOrHigher('8'))) {
+      (!isCss1CompatMode || !goog.userAgent.isVersion('8'))) {
     var style = element.style;
     if (isCss1CompatMode) {
       style.pixelWidth = size.width;

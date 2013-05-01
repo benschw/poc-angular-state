@@ -277,10 +277,15 @@ goog.testing.TestRunner.prototype.onComplete_ = function() {
     this.logEl_ = el;
   }
 
+  // Remove all children from the log element.
+  var logEl = this.logEl_;
+  while (logEl.firstChild) {
+    logEl.removeChild(logEl.firstChild);
+  }
+
   // Highlight the page to indicate the overall outcome.
   this.writeLog(log);
 
-  // TODO(user): Make this work with multiple test cases (b/8603638).
   var runAgainLink = document.createElement('a');
   runAgainLink.style.display = 'block';
   runAgainLink.style.fontSize = 'small';
@@ -290,7 +295,7 @@ goog.testing.TestRunner.prototype.onComplete_ = function() {
     return false;
   }, this);
   runAgainLink.innerHTML = 'Run again without reloading';
-  this.logEl_.appendChild(runAgainLink);
+  logEl.appendChild(runAgainLink);
 };
 
 
