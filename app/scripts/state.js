@@ -7,7 +7,7 @@ sample.state.home = {
 	url: '/',
 	templateUrl: 'views/main.html',
 	controller: ['$scope', function ($scope) {
-		$scope.awesomeThings = ['AngularJS', 'Angular-Ui-Router', 'Bootstrap', 'Closure' ]
+		$scope['awesomeThings'] = ['AngularJS', 'Angular-Ui-Router', 'Bootstrap', 'Closure' ]
 	}]
 };
 
