@@ -19,7 +19,6 @@ See the COPYING file for details.
   goog.require('goog.style');
   goog.require('goog.testing.events');
   goog.require('goog.testing.jsunit');
-  goog.require('goog.testing.recordFunction');
   goog.require('goog.ui.Component');
   goog.require('goog.ui.SplitPane');
   goog.require('goog.ui.SplitPane.Orientation');
@@ -168,33 +167,37 @@ function testDragEvent() {
   splitpane.setInitialSize(200);
   splitpane.setHandleSize(10);
   splitpane.render(goog.dom.getElement('sandbox'));
-
-  var handler = goog.testing.recordFunction();
+  var eventFired = false;
   goog.events.listen(splitpane, goog.ui.SplitPane.EventType.HANDLE_DRAG,
-      handler);
+      function() {
+        eventFired = true;
+      });
+
   var handle = goog.dom.getElementsByTagNameAndClass('div',
       'goog-splitpane-handle')[0];
 
   goog.testing.events.fireMouseDownEvent(handle);
   goog.testing.events.fireMouseMoveEvent(handle);
   goog.testing.events.fireMouseUpEvent(handle);
-  assertEquals('HANDLE_DRAG event expected', 1, handler.getCallCount());
+  assertTrue('HANDLE_DRAG event expected', eventFired);
 
   splitpane.setContinuousResize(false);
-  handler.reset();
+  eventFired = false;
   goog.testing.events.fireMouseDownEvent(handle);
   goog.testing.events.fireMouseMoveEvent(handle);
   goog.testing.events.fireMouseUpEvent(handle);
-  assertEquals('HANDLE_DRAG event not expected', 0, handler.getCallCount());
+  assertFalse('HANDLE_DRAG event not expected', eventFired);
 }
 
 function testDragEndEvent() {
   splitpane.setInitialSize(200);
   splitpane.setHandleSize(10);
   splitpane.render(goog.dom.getElement('sandbox'));
-  var handler = goog.testing.recordFunction();
+  var eventFired = false;
   goog.events.listen(splitpane, goog.ui.SplitPane.EventType.HANDLE_DRAG_END,
-      handler);
+      function() {
+        eventFired = true;
+      });
 
   var handle = goog.dom.getElementsByTagNameAndClass('div',
       'goog-splitpane-handle')[0];
@@ -202,27 +205,14 @@ function testDragEndEvent() {
   goog.testing.events.fireMouseDownEvent(handle);
   goog.testing.events.fireMouseMoveEvent(handle);
   goog.testing.events.fireMouseUpEvent(handle);
-  assertEquals('HANDLE_DRAG_END event expected', 1, handler.getCallCount());
+  assertTrue('HANDLE_DRAG_END event expected', eventFired);
 
   splitpane.setContinuousResize(false);
-  handler.reset();
+  eventFired = false;
   goog.testing.events.fireMouseDownEvent(handle);
   goog.testing.events.fireMouseMoveEvent(handle);
   goog.testing.events.fireMouseUpEvent(handle);
-  assertEquals('HANDLE_DRAG_END event expected', 1, handler.getCallCount());
-}
-
-function testSnapEvent() {
-  splitpane.setInitialSize(200);
-  splitpane.setHandleSize(10);
-  splitpane.render(goog.dom.getElement('sandbox'));
-  var handler = goog.testing.recordFunction();
-  goog.events.listen(splitpane, goog.ui.SplitPane.EventType.HANDLE_SNAP,
-      handler);
-  var handle = goog.dom.getElementsByTagNameAndClass('div',
-      'goog-splitpane-handle')[0];
-  goog.testing.events.fireDoubleClickSequence(handle);
-  assertEquals('HANDLE_SNAP event expected', 1, handler.getCallCount());
+  assertTrue('HANDLE_DRAG_END event expected', eventFired);
 }
 </script>
 </body>

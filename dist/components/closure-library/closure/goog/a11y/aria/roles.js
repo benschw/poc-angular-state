@@ -22,7 +22,7 @@ goog.provide('goog.a11y.aria.Role');
 
 
 /**
- * Enumeration of ARIA roles.
+ * Enumeration of ARIA states and properties.
  * @enum {string}
  */
 goog.a11y.aria.Role = {
