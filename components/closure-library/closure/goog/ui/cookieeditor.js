@@ -164,9 +164,9 @@ goog.ui.CookieEditor.prototype.handleUpdate_ = function(e) {
     }
     if (goog.net.cookies.isValidValue(value)) {
       goog.net.cookies.set(this.cookieKey_, value);
-      goog.style.setElementShown(this.valueWarningElem_, false);
+      goog.style.showElement(this.valueWarningElem_, false);
     } else {
-      goog.style.setElementShown(this.valueWarningElem_, true);
+      goog.style.showElement(this.valueWarningElem_, true);
     }
   }
 };

@@ -100,14 +100,6 @@ function testLoadAndVerifyError() {
 }
 
 
-// Tests that callers can cancel the deferred without error.
-function testLoadAndVerifyCancelled() {
-  var testUrl = 'testdata/jsloader_test2.js';
-  var result = goog.net.jsloader.loadAndVerify(testUrl, 'test2');
-  result.cancel();
-}
-
-
 // Test the loadMany function.
 function testLoadMany() {
   testCase.waitForAsync('testLoadMany');

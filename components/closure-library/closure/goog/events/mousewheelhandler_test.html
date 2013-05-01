@@ -195,7 +195,7 @@ See the COPYING file for details.
   }
 
   function runWebKitContinousAndDiscreteEventsTest() {
-    goog.userAgent.isVersionOrHigher = goog.functions.TRUE;
+    goog.userAgent.isVersion = goog.functions.TRUE;
 
     createHandlerAndListen();
 
@@ -226,7 +226,7 @@ See the COPYING file for details.
         WINDOWS: false
     };
 
-    goog.userAgent.isVersionOrHigher = goog.functions.FALSE;
+    goog.userAgent.isVersion = goog.functions.FALSE;
 
     createHandlerAndListen();
 
