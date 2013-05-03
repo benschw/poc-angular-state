@@ -23,6 +23,8 @@
 goog.provide('goog.events.EventTarget');
 
 goog.require('goog.Disposable');
+goog.require('goog.array');
+goog.require('goog.asserts');
 goog.require('goog.events');
 goog.require('goog.events.Event');
 goog.require('goog.events.Listenable');
@@ -82,40 +84,24 @@ goog.require('goog.object');
 goog.events.EventTarget = function() {
   goog.Disposable.call(this);
 
-  if (goog.events.Listenable.USE_LISTENABLE_INTERFACE) {
-    /**
-     * Maps of event type to an array of listeners.
-     *
-     * @type {Object.<string, !Array.<!goog.events.ListenableKey>>}
-     * @private
-     */
-    this.eventTargetListeners_ = {};
+  /**
+   * Maps of event type to an array of listeners.
+   *
+   * @type {Object.<string, !Array.<!goog.events.ListenableKey>>}
+   * @private
+   */
+  this.eventTargetListeners_ = {};
 
-    /**
-     * Whether the EventTarget has been disposed. This is only true
-     * when disposeInternal of EventTarget is completed (whereas
-     * this.isDisposed() is true the moment obj.dispose() is called,
-     * even before calling its disposeInternal).
-     * @type {boolean}
-     * @private
-     */
-    this.reallyDisposed_ = false;
-
-    /**
-     * The object to use for event.target. Useful when mixing in an
-     * EventTarget to another object.
-     * @type {!Object}
-     * @private
-     */
-    this.actualEventTarget_ = this;
-  }
+  /**
+   * The object to use for event.target. Useful when mixing in an
+   * EventTarget to another object.
+   * @type {!Object}
+   * @private
+   */
+  this.actualEventTarget_ = this;
 };
 goog.inherits(goog.events.EventTarget, goog.Disposable);
-
-
-if (goog.events.Listenable.USE_LISTENABLE_INTERFACE) {
-  goog.events.Listenable.addImplementation(goog.events.EventTarget);
-}
+goog.events.Listenable.addImplementation(goog.events.EventTarget);
 
 
 /**
@@ -125,15 +111,6 @@ if (goog.events.Listenable.USE_LISTENABLE_INTERFACE) {
  * @private
  */
 goog.events.EventTarget.MAX_ANCESTORS_ = 1000;
-
-
-/**
- * Used to tell if an event is a real event in goog.events.listen() so we don't
- * get listen() calling addEventListener() and vice-versa.
- * @type {boolean}
- * @private
- */
-goog.events.EventTarget.prototype.customEvent_ = true;
 
 
 /**
@@ -173,6 +150,8 @@ goog.events.EventTarget.prototype.setParentEventTarget = function(parent) {
  *
  * Supported for legacy but use goog.events.listen(src, type, handler) instead.
  *
+ * TODO(user): Deprecate this.
+ *
  * @param {string} type The type of the event to listen for.
  * @param {Function|Object} handler The function to handle the event. The
  *     handler can also be an object that implements the handleEvent method
@@ -193,6 +172,9 @@ goog.events.EventTarget.prototype.addEventListener = function(
  * Removes an event listener from the event target. The handler must be the
  * same object as the one added. If the handler has not been added then
  * nothing is done.
+ *
+ * TODO(user): Deprecate this.
+ *
  * @param {string} type The type of the event to listen for.
  * @param {Function|Object} handler The function to handle the event. The
  *     handler can also be an object that implements the handleEvent method
@@ -211,28 +193,22 @@ goog.events.EventTarget.prototype.removeEventListener = function(
 
 /** @override */
 goog.events.EventTarget.prototype.dispatchEvent = function(e) {
-  if (goog.events.Listenable.USE_LISTENABLE_INTERFACE) {
-    if (this.reallyDisposed_) {
-      return true;
-    }
+  this.assertInitialized_();
 
-    var ancestorsTree, ancestor = this.getParentEventTarget();
-    if (ancestor) {
-      ancestorsTree = [];
-      var ancestorCount = 1;
-      for (; ancestor; ancestor = ancestor.getParentEventTarget()) {
-        ancestorsTree.push(ancestor);
-        goog.asserts.assert(
-            (++ancestorCount < goog.events.EventTarget.MAX_ANCESTORS_),
-            'infinite loop');
-      }
+  var ancestorsTree, ancestor = this.getParentEventTarget();
+  if (ancestor) {
+    ancestorsTree = [];
+    var ancestorCount = 1;
+    for (; ancestor; ancestor = ancestor.getParentEventTarget()) {
+      ancestorsTree.push(ancestor);
+      goog.asserts.assert(
+          (++ancestorCount < goog.events.EventTarget.MAX_ANCESTORS_),
+          'infinite loop');
     }
-
-    return goog.events.EventTarget.dispatchEventInternal_(
-        this.actualEventTarget_, e, ancestorsTree);
-  } else {
-    return goog.events.dispatchEvent(this, e);
   }
+
+  return goog.events.EventTarget.dispatchEventInternal_(
+      this.actualEventTarget_, e, ancestorsTree);
 };
 
 
@@ -252,18 +228,22 @@ goog.events.EventTarget.prototype.dispatchEvent = function(e) {
 goog.events.EventTarget.prototype.disposeInternal = function() {
   goog.events.EventTarget.superClass_.disposeInternal.call(this);
 
-  if (goog.events.Listenable.USE_LISTENABLE_INTERFACE) {
-    this.removeAllListeners();
-    this.reallyDisposed_ = true;
-  } else {
-    goog.events.removeAll(this);
-  }
-
+  this.removeAllListeners();
   this.parentEventTarget_ = null;
 };
 
 
-if (goog.events.Listenable.USE_LISTENABLE_INTERFACE) {
+/**
+ * Asserts that the event target instance is initialized properly.
+ * @private
+ */
+goog.events.EventTarget.prototype.assertInitialized_ = function() {
+  goog.asserts.assert(
+      this.eventTargetListeners_,
+      'Event target is not initialized. Did you call superclass ' +
+      '(goog.events.EventTarget) constructor?');
+};
+
 
 /** @override */
 goog.events.EventTarget.prototype.listen = function(
@@ -303,8 +283,7 @@ goog.events.EventTarget.prototype.listenOnce = function(
  */
 goog.events.EventTarget.prototype.listenInternal_ = function(
     type, listener, callOnce, opt_useCapture, opt_listenerScope) {
-  goog.asserts.assert(
-      !this.reallyDisposed_, 'Can not listen on disposed object.');
+  this.assertInitialized_();
 
   var listenerArray = this.eventTargetListeners_[type] ||
       (this.eventTargetListeners_[type] = []);
@@ -322,8 +301,7 @@ goog.events.EventTarget.prototype.listenInternal_ = function(
     return listenerObj;
   }
 
-  listenerObj = new goog.events.Listener();
-  listenerObj.init(
+  listenerObj = new goog.events.Listener(
       listener, null, this, type, !!opt_useCapture, opt_listenerScope);
   listenerObj.callOnce = callOnce;
   listenerArray.push(listenerObj);
@@ -390,10 +368,6 @@ goog.events.EventTarget.prototype.removeAllListeners = function(
 /** @override */
 goog.events.EventTarget.prototype.fireListeners = function(
     type, capture, eventObject) {
-  goog.asserts.assert(
-      !this.reallyDisposed_,
-      'Can not fire listeners after dispose() completed.');
-
   if (!(type in this.eventTargetListeners_)) {
     return true;
   }
@@ -563,5 +537,3 @@ goog.events.EventTarget.findListenerIndex_ = function(
   }
   return -1;
 };
-
-}  // if (goog.events.Listenable.USE_LISTENABLE_INTERFACE)

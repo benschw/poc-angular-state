@@ -8,7 +8,8 @@
     "angular-resource": "~1.0.5",
     "angular-cookies": "~1.0.5",
     "angular-sanitize": "~1.0.5",
-    "angular-ui-router": "b1db79a2907f41a67baa80db884885c952d3f224"
+    "angular-ui-router": "master"
+
   },
   "devDependencies": {
     "angular-mocks": "~1.0.5",

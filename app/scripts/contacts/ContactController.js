@@ -9,7 +9,7 @@ goog.provide('contacts.ContactController');
  * @constructor
  */
 contacts.ContactController = function ($scope, $stateParams, Contact) {
-	$scope['contact'] = Contact.get({id: $stateParams['contactId']});
+	$scope['contact'] = Contact.get({id: $stateParams.contactId});
 };
 
 contacts.ContactController['$inject'] = ['$scope', '$stateParams', 'Contact'];

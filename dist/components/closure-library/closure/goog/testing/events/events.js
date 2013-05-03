@@ -35,14 +35,14 @@
 goog.provide('goog.testing.events');
 goog.provide('goog.testing.events.Event');
 
+goog.require('goog.Disposable');
+goog.require('goog.dom.NodeType');
 goog.require('goog.events');
 goog.require('goog.events.BrowserEvent');
-goog.require('goog.events.BrowserEvent.MouseButton');
 goog.require('goog.events.BrowserFeature');
 goog.require('goog.events.EventTarget');
 goog.require('goog.events.EventType');
 goog.require('goog.events.KeyCodes');
-goog.require('goog.events.Listenable');
 goog.require('goog.object');
 goog.require('goog.style');
 goog.require('goog.userAgent');
@@ -148,7 +148,7 @@ goog.testing.events.fireClickSequence =
     function(target, opt_button, opt_coords, opt_eventProperties) {
   // Fire mousedown, mouseup, and click. Then return the bitwise AND of the 3.
   return !!(goog.testing.events.fireMouseDownEvent(
-                target, opt_button, opt_coords, opt_eventProperties) &
+      target, opt_button, opt_coords, opt_eventProperties) &
             goog.testing.events.fireMouseUpEvent(
                 target, opt_button, opt_coords, opt_eventProperties) &
             goog.testing.events.fireClickEvent(
@@ -173,7 +173,7 @@ goog.testing.events.fireDoubleClickSequence = function(
   // Then return the bitwise AND of the 7.
   var btn = goog.events.BrowserEvent.MouseButton.LEFT;
   return !!(goog.testing.events.fireMouseDownEvent(
-                target, btn, opt_coords, opt_eventProperties) &
+      target, btn, opt_coords, opt_eventProperties) &
             goog.testing.events.fireMouseUpEvent(
                 target, btn, opt_coords, opt_eventProperties) &
             goog.testing.events.fireClickEvent(
@@ -249,8 +249,8 @@ goog.testing.events.fireNonAsciiKeySequence = function(
     result = goog.testing.events.fireBrowserEvent(keydown);
   }
   if (goog.events.KeyCodes.firesKeyPressEvent(
-          keyCode, undefined, keydown.shiftKey, keydown.ctrlKey,
-          keydown.altKey) &&
+      keyCode, undefined, keydown.shiftKey, keydown.ctrlKey,
+      keydown.altKey) &&
       !(goog.userAgent.IE && !result)) {
     result &= goog.testing.events.fireBrowserEvent(keypress);
   }
@@ -488,7 +488,7 @@ goog.testing.events.fireContextMenuSequence = function(target, opt_coords) {
   if (goog.userAgent.WINDOWS) {
     // All browsers are consistent on Windows.
     result &= goog.testing.events.fireMouseUpEvent(target,
-                  button, opt_coords) &
+        button, opt_coords) &
               goog.testing.events.fireContextMenuEvent(target, opt_coords);
   } else {
     result &= goog.testing.events.fireContextMenuEvent(target, opt_coords);
@@ -654,7 +654,7 @@ goog.testing.events.fireTouchSequence = function(
   // TODO: Support multi-touch events with array of coordinates.
   // Fire touchstart, touchmove, touchend then return the bitwise AND of the 3.
   return !!(goog.testing.events.fireTouchStartEvent(
-                target, opt_coords, opt_eventProperties) &
+      target, opt_coords, opt_eventProperties) &
             goog.testing.events.fireTouchEndEvent(
                 target, opt_coords, opt_eventProperties));
 };
@@ -670,23 +670,19 @@ goog.testing.events.fireTouchSequence = function(
 goog.testing.events.mixinListenable = function(obj) {
   var listenable = new goog.events.EventTarget();
 
-  if (goog.events.Listenable.USE_LISTENABLE_INTERFACE) {
-    listenable.setTargetForTesting(obj);
+  listenable.setTargetForTesting(obj);
 
-    var listenablePrototype = goog.events.EventTarget.prototype;
-    var disposablePrototype = goog.Disposable.prototype;
-    for (var key in listenablePrototype) {
-      if (listenablePrototype.hasOwnProperty(key) ||
-          disposablePrototype.hasOwnProperty(key)) {
-        var member = listenablePrototype[key];
-        if (goog.isFunction(member)) {
-          obj[key] = goog.bind(member, listenable);
-        } else {
-          obj[key] = member;
-        }
+  var listenablePrototype = goog.events.EventTarget.prototype;
+  var disposablePrototype = goog.Disposable.prototype;
+  for (var key in listenablePrototype) {
+    if (listenablePrototype.hasOwnProperty(key) ||
+        disposablePrototype.hasOwnProperty(key)) {
+      var member = listenablePrototype[key];
+      if (goog.isFunction(member)) {
+        obj[key] = goog.bind(member, listenable);
+      } else {
+        obj[key] = member;
       }
     }
-  } else {
-    goog.mixin(obj, listenable);
   }
 };

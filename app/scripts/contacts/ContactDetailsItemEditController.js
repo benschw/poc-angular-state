@@ -8,7 +8,6 @@ goog.provide('contacts.ContactDetailsItemEditController');
  * @param {*} $state @TODO
  * @ngInject 
  * @constructor
- * @suppress {checkTypes}
  */
 contacts.ContactDetailsItemEditController = function ($scope, $stateParams, $state, Contact) {
 	var findById = function (a, id) {
@@ -21,7 +20,7 @@ contacts.ContactDetailsItemEditController = function ($scope, $stateParams, $sta
 
 
 	$scope['item'] = findById(contact.items, $stateParams.itemId);
-	$scope.done = function () {
+	$scope['done'] = function () {
 		$state.transitionTo('contacts.detail.item', $stateParams);
 	};
 };

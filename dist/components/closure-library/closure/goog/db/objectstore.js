@@ -41,6 +41,10 @@ goog.require('goog.events');
  *
  * @param {!IDBObjectStore} store The backing IndexedDb object.
  * @constructor
+ *
+ * TODO(user): revisit msg in exception and errors in this class. In newer
+ *     Chrome (v22+) the error/request come with a DOM error string that is
+ *     already very descriptive.
  */
 goog.db.ObjectStore = function(store) {
   /**
@@ -277,7 +281,7 @@ goog.db.ObjectStore.prototype.getAll = function(opt_range, opt_direction) {
  *     moves in a forward direction with duplicates.
  * @return {!goog.db.Cursor} The cursor.
  * @throws {goog.db.Error} If there was a problem opening the cursor.
- * @suppress {accessControls}
+ * @suppress {accessControls} Required for accessing cursor.cursor_.
  */
 goog.db.ObjectStore.prototype.openCursor = function(opt_range, opt_direction) {
   var msg = 'opening cursor ' + this.getName();
@@ -285,7 +289,7 @@ goog.db.ObjectStore.prototype.openCursor = function(opt_range, opt_direction) {
   var request;
 
   try {
-    var range = opt_range ? opt_range.range_ : null;
+    var range = opt_range ? opt_range.range() : null;
     if (opt_direction) {
       request = this.store_.openCursor(range, opt_direction);
     } else {
@@ -392,3 +396,31 @@ goog.db.ObjectStore.prototype.deleteIndex = function(name) {
     throw goog.db.Error.fromException(ex, msg);
   }
 };
+
+
+/**
+ * Gets number of records within a key range.
+ *
+ * @param {!goog.db.KeyRange=} opt_range The key range. If undefined, this will
+ *     count all records in the object store.
+ * @return {!goog.async.Deferred} The deferred number of records.
+ */
+goog.db.ObjectStore.prototype.count = function(opt_range) {
+  var request;
+  var d = new goog.async.Deferred();
+
+  try {
+    var range = opt_range ? opt_range.range() : null;
+    request = this.store_.count(range);
+  } catch (ex) {
+    d.errback(goog.db.Error.fromException(ex, this.getName()));
+  }
+  request.onsuccess = function(ev) {
+    d.callback(ev.target.result);
+  };
+  request.onerror = function(ev) {
+    d.errback(goog.db.Error.fromRequest(ev.target, this.getName()));
+  };
+  return d;
+};
+

@@ -14,14 +14,10 @@
 
 /**
  * @fileoverview An interface for a listenable JavaScript object.
- *
- * WARNING(chrishenry): DO NOT USE! SUPPORT NOT FULLY IMPLEMENTED.
  */
 
 goog.provide('goog.events.Listenable');
 goog.provide('goog.events.ListenableKey');
-
-goog.require('goog.events.EventLike');
 
 
 
@@ -33,17 +29,6 @@ goog.events.Listenable = function() {};
 
 
 /**
- * Whether to use the new listenable interface and mechanism in
- * goog.events and goog.events.EventTarget.
- *
- * TODO(user): Remove this once launched and stable.
- *
- * @type {boolean}
- */
-goog.events.Listenable.USE_LISTENABLE_INTERFACE = false;
-
-
-/**
  * An expando property to indicate that an object implements
  * goog.events.Listenable.
  *
@@ -51,9 +36,9 @@ goog.events.Listenable.USE_LISTENABLE_INTERFACE = false;
  *
  * @type {string}
  * @const
- * @private
  */
-goog.events.Listenable.IMPLEMENTED_BY_PROP_ = '__closure_listenable';
+goog.events.Listenable.IMPLEMENTED_BY_PROP =
+    'closure_listenable_' + ((Math.random() * 1e6) | 0);
 
 
 /**
@@ -64,7 +49,7 @@ goog.events.Listenable.IMPLEMENTED_BY_PROP_ = '__closure_listenable';
  *     class must have already implemented the interface.
  */
 goog.events.Listenable.addImplementation = function(cls) {
-  cls.prototype[goog.events.Listenable.IMPLEMENTED_BY_PROP_] = true;
+  cls.prototype[goog.events.Listenable.IMPLEMENTED_BY_PROP] = true;
 };
 
 
@@ -75,7 +60,7 @@ goog.events.Listenable.addImplementation = function(cls) {
  *     addImplementation.
  */
 goog.events.Listenable.isImplementedBy = function(obj) {
-  return !!(obj && obj[goog.events.Listenable.IMPLEMENTED_BY_PROP_]);
+  return !!(obj && obj[goog.events.Listenable.IMPLEMENTED_BY_PROP]);
 };
 
 
@@ -218,13 +203,12 @@ goog.events.Listenable.prototype.getListeners;
  *
  * @param {string} type The name of the event without the 'on' prefix.
  * @param {!Function} listener The listener function to get.
- * @param {boolean=} capture Whether the listener is a capturing listener.
+ * @param {boolean} capture Whether the listener is a capturing listener.
  * @param {Object=} opt_listenerScope Object in whose scope to call the
  *     listener.
  * @return {goog.events.ListenableKey} the found listener or null if not found.
  */
 goog.events.Listenable.prototype.getListener;
-
 
 
 /**

@@ -40,7 +40,7 @@ module.exports = function (grunt) {
           '{.tmp,<%= yeoman.app %>}/scripts/{,*/}*.js',
           '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
         ],
-        tasks: ['livereload']
+        tasks: ['deps', 'livereload']
       }
     },
     connect: {
@@ -87,7 +87,8 @@ module.exports = function (grunt) {
           ]
         }]
       },
-      server: '.tmp'
+      server: '.tmp',
+      build: 'build'
     },
     jshint: {
       options: {
@@ -95,8 +96,7 @@ module.exports = function (grunt) {
       },
       all: [
         'Gruntfile.js',
-        '<%= yeoman.app %>/scripts/{,*/}*.js',
-        '!<%= yeoman.app %>/scripts/templates.js'
+        '<%= yeoman.app %>/scripts/{,*/}*.js'
       ]
     },
     karma: {
@@ -142,29 +142,6 @@ module.exports = function (grunt) {
         }
       }
     },
-    concat: {
-      dist: {
-        // files: {
-        //   '<%= yeoman.dist %>/scripts/app.js': [
-        //     '.tmp/scripts/{,*/}*.js',
-        //     '<%= yeoman.app %>/scripts/{,*/}*.js'
-        //   ]
-        // }
-      }
-    },
-    useminPrepare: {
-      html: '<%= yeoman.app %>/index.html',
-      options: {
-        dest: '<%= yeoman.dist %>'
-      }
-    },
-    usemin: {
-      html: ['<%= yeoman.dist %>/{,*/}*.html'],
-      css: ['<%= yeoman.dist %>/styles/{,*/}*.css'],
-      options: {
-        dirs: ['<%= yeoman.dist %>']
-      }
-    },
     imagemin: {
       dist: {
         files: [{
@@ -201,34 +178,30 @@ module.exports = function (grunt) {
         files: [{
           expand: true,
           cwd: '<%= yeoman.app %>',
-          src: ['*.html', 'views/*.html'],
+          src: ['*.html'], //src: ['*.html', 'views/*.html'],
+          dest: '<%= yeoman.dist %>'
+        }]
+      },
+      distTpls: {
+        options: {
+          /*removeCommentsFromCDATA: true,
+          // https://github.com/yeoman/grunt-usemin/issues/44
+          //collapseWhitespace: true,
+          collapseBooleanAttributes: true,
+          removeAttributeQuotes: true,
+          removeRedundantAttributes: true,
+          useShortDoctype: true,
+          removeEmptyAttributes: true,
+          removeOptionalTags: true*/
+        },
+        files: [{
+          expand: true,
+          cwd: '<%= yeoman.app %>',
+          src: ['scripts/**/*.tpl.html'], //src: ['*.html', 'views/*.html'],
           dest: '<%= yeoman.dist %>'
         }]
       }
-    },
-    cdnify: {
-      dist: {
-        html: ['<%= yeoman.dist %>/*.html']
-      }
-    },
-    ngmin: {
-      dist: {
-        files: [{
-          expand: true,
-          cwd: '<%= yeoman.dist %>/scripts',
-          src: '*.js',
-          dest: '<%= yeoman.dist %>/scripts'
-        }]
-      }
-    },
-    uglify: {
-      dist: {
-        files: {
-          '<%= yeoman.dist %>/scripts/lib.js': [
-            '<%= yeoman.dist %>/scripts/lib.js'
-          ],
-        }
-      }
+
     },
     rev: {
       dist: {
@@ -258,76 +231,66 @@ module.exports = function (grunt) {
       }
     },
     ngtemplates:    {
-      WeatherApp:        {
+      SampleViews: {
         options:    {
-          base:     'app/views/',        // $templateCache ID will be relative to this folder
-          prepend:  '/views/'   // (Optional) Prepend path to $templateCache ID
+          base:     'app/scripts',        // $templateCache ID will be relative to this folder
+          prepend:  'scripts',            // (Optional) Prepend path to $templateCache ID
+          module:   'sample'
         },
-        src:        [ 'app/views/**.html' ],
-        dest:       'app/scripts/templates.js'
+        src:        [ 'app/scripts/views/**.html' ],
+        dest:       'build/tpl/sample-templates.js'
+      },
+      ContactsViews: {
+        options:    {
+          base:     'app/scripts',        // $templateCache ID will be relative to this folder
+          prepend:  'scripts',            // (Optional) Prepend path to $templateCache ID
+          module:   'contacts'
+        },
+        src:        [ 'app/scripts/contacts/views/**.html' ],
+        dest:       'build/tpl/contacts-templates.js'
+      },
+      AccountSettingsViews: {
+        options:    {
+          base:     'app/scripts',        // $templateCache ID will be relative to this folder
+          prepend:  'scripts',            // (Optional) Prepend path to $templateCache ID
+          module:   'accountSettings'
+        },
+        src:        [ 'app/scripts/accountSettings/views/**.html' ],
+        dest:       'build/tpl/accountSettings-templates.js'
       }
     },
+
     closureDepsWriter: {
       options: {
         closureLibraryPath: 'app/components/closure-library', // path to closure library
 
         // [OPTIONAL] Root directory to scan. Can be string or array
-        // root: ['source/ss', 'source/closure-library', 'source/showcase'],
         // root: [
         //   'app/components/closure-library/closure/goog', 
         //   'app/components/closure-library/third_party/closure', 
         //   'app/scripts'
         // ],//'string|Array',
 
-        // [OPTIONAL] Root with prefix takes a pair of strings separated with a space,
-        //    so proper way to use it is to suround with quotes.
-        //    can be a string or array
-       //root_with_prefix: '"source/ss ../../ss"',
         root_with_prefix: [
           '"app/scripts ../../../../scripts"'
         ],//'string|Array',
-
-        // [OPTIONAL] string or array
-//        path_with_depspath: ''
-
-
       },
-       // any name that describes your operation
+
       buildDeps: {
-
-        // [OPTIONAL] Set file targets. Can be a string, array or
-        //    grunt file syntax (<config:...> or *)
-        //src: 'scripts/app.js',
-
-        // [OPTIONAL] If not set, will output to stdout
         dest: 'app/deps.js'
-
       }
     },
+
     closureBuilder:  {
       options: {
         closureLibraryPath: 'app/components/closure-library', // path to closure library
 
-        // [OPTIONAL] You can define an alternative path of the builder.
-        //builder: 'path/to/closurebuilder.py',
-    
-        // [REQUIRED] One of the two following options is required:
-        //inputs: 'app/scripts/templates.js',//'string|Array', // input files (can just be the entry point)
         namespaces: 'sample.config', //'string|Array', // namespaces
     
         compilerFile: 'closure-compiler/compiler.jar',
-    
-        //output_mode: '', //'list', 'script' (default) or 'compiled' (if compile == true).
-    
         compile: true, // boolean
     
         compilerOpts: {
-          /**
-          * Go wild here...
-          * any key will be used as an option for the compiler
-          * value can be a string or an array
-          * If no value is required use null
-          */
           externs: ["closure-compiler/angular-externs.js", "closure-compiler/custom-externs.js"],
           output_wrapper: "(function(){%output%})();",
           compilation_level: "ADVANCED_OPTIMIZATIONS",
@@ -337,32 +300,44 @@ module.exports = function (grunt) {
             "accessControls", "invalidCasts", 
             "checkVars", "ambiguousFunctionDecl", "suspiciousCode", "const", "es5Strict"
           ]
-        },
-        // [OPTIONAL] Set exec method options
-        execOpts: {
-           /**
-            * Set maxBuffer if you got message "Error: maxBuffer exceeded."
-            * Node default: 200*1024
-            */
-           maxBuffer: 999999 * 1024
         }
-    
       },
 
-	  // any name that describes your operation
-	  buildApp: {
+  	  buildApp: {
+  	    src: [
+  	      'app/components/closure-library/closure/goog', 
+  	      'app/components/closure-library/third_party/closure', 
+  	      'app/scripts'
+          // 'build/tplPrepared'
+  	    ],//'string|Array',
+  	    dest: '<%= yeoman.dist %>/scripts/app.js'
+  	  }
+  	},
+    useminPrepare: {
+      html: '<%= yeoman.app %>/index.html',
+      options: {
+        dest: '<%= yeoman.dist %>'
+      }
+    },
+    usemin: {
+      html: ['<%= yeoman.dist %>/{,*/}*.html'],
+      css: ['<%= yeoman.dist %>/styles/{,*/}*.css'],
+      options: {
+        dirs: ['<%= yeoman.dist %>']
+      }
+    },
 
-	    // [REQUIRED] paths to be traversed to build the dependencies
-	    src: [
-	      'app/components/closure-library/closure/goog', 
-	      'app/components/closure-library/third_party/closure', 
-	      'app/scripts'
-	    ],//'string|Array',
-
-	    // [OPTIONAL] if not set, will output to stdout
-	    dest: 'dist/scripts/app.js'
-	  }
-	}
+    uglify: {
+      // lib.js & app.js defined by useminPrepare
+    },
+    concat: {
+      // lib.js & app.js defined by useminPrepare
+      // closure: {
+      //   files: {
+      //     '<%= yeoman.dist %>/scripts/app.js': ['build/app.js']
+      //   }
+      // }
+    }
   });
 
   grunt.renameTask('regarde', 'watch');
@@ -385,37 +360,23 @@ module.exports = function (grunt) {
     'karma'
   ]);
 
-  grunt.registerTask('buildold', [
-    'clean:dist',
-    // 'ngtemplates',
-    'compass:dist',
-    'useminPrepare',
-    'imagemin',
-    'cssmin',
-    'htmlmin',
-    'concat',
-    'copy',
-    'cdnify',
-    'ngmin',
-    'uglify',
-    'rev',
-    'usemin'
-  ]);
-
   grunt.registerTask('build', [
+    // 'clean:build',
     'clean:dist',
-    // 'ngtemplates',
     'compass:dist',
     'useminPrepare',
+
     'imagemin',
     'cssmin',
-    'htmlmin',
+    'htmlmin:dist',
+    'htmlmin:distTpls',
+    // 'ngtemplates',
+
     'concat',
     'uglify',
     'closureBuilder',
+
     'copy',
-    // 'cdnify',
-    // 'ngmin',
     'rev',
     'usemin'
   ]);

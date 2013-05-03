@@ -9,7 +9,6 @@ goog.require('contacts.state');
  * @param {*} $state @TODO
  * @ngInject 
  * @constructor
- * @suppress {checkTypes}
  */
 contacts.ContactDetailsItemController = function ($scope, $stateParams, $state, Contact) {
 	var findById = function (a, id) {
@@ -20,7 +19,7 @@ contacts.ContactDetailsItemController = function ($scope, $stateParams, $state, 
 
 	var contact = Contact.get({id: $stateParams.contactId});
 	$scope['item'] = findById(contact.items, $stateParams.itemId);
-	$scope.edit = function () {
+	$scope['edit'] = function () {
 		$state.transitionTo(contacts.state.contactDetailsItemEdit, $stateParams);
 	};
 };

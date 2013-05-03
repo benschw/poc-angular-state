@@ -6,7 +6,7 @@ contacts.state.contacts = {
 	name: 'contacts',
 	url: '/contacts',
 	'abstract': true,
-	templateUrl: 'views/contacts.html',
+	templateUrl: 'scripts/contacts/views/contacts.tpl.html',
 	controller: 'ContactsController'
 };
 
@@ -14,7 +14,7 @@ contacts.state.contactList = {
 	name: 'contacts.list',
 	parent: contacts.state.contacts,
 	url: '',
-	templateUrl: 'views/contacts.list.html'
+	templateUrl: 'scripts/contacts/views/contacts.list.tpl.html'
 };
 
 
@@ -24,7 +24,7 @@ contacts.state.contactDetails = {
 	url: '/:contactId',
 	views: {
 		'': {
-			templateUrl: 'views/contacts.detail.html',
+			templateUrl: 'scripts/contacts/views/contacts.detail.tpl.html',
 			controller: 'ContactController'
 		},
 		'hint@': {
@@ -48,7 +48,7 @@ contacts.state.contactDetailsItem = {
 	url: '/item/:itemId',
 	views: {
 		'': {
-			templateUrl: 'views/contacts.detail.item.html',
+			templateUrl: 'scripts/contacts/views/contacts.detail.item.tpl.html',
 			controller: 'ContactDetailsItemController'
 		},
 		'hint@': {
@@ -62,7 +62,7 @@ contacts.state.contactDetailsItemEdit = {
 	parent: contacts.state.contactDetailsItem,
 	views: {
 		'@contacts.detail': {
-			templateUrl: 'views/contacts.detail.item.edit.html',
+			templateUrl: 'scripts/contacts/views/contacts.detail.item.edit.tpl.html',
 			controller: 'ContactDetailsItemEditController'
 		},
 		'hint@': {

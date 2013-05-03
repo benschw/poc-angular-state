@@ -11,7 +11,7 @@ goog.provide('contacts.ContactsController');
 contacts.ContactsController = function ($scope, $state, Contact) {
 	$scope['contacts'] = Contact.getAll();
 
-	$scope.goToRandom = function () {
+	$scope['goToRandom'] = function () {
 		var contacts = $scope['contacts'], id;
 		do {
 			id = contacts[Math.floor(contacts.length * Math.random())].id;

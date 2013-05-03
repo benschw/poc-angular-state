@@ -26,8 +26,9 @@ goog.provide('goog.ui.Component.EventType');
 goog.provide('goog.ui.Component.State');
 
 goog.require('goog.array');
-goog.require('goog.array.ArrayLike');
+goog.require('goog.asserts');
 goog.require('goog.dom');
+goog.require('goog.dom.NodeType');
 goog.require('goog.events.EventHandler');
 goog.require('goog.events.EventTarget');
 goog.require('goog.object');
@@ -51,6 +52,15 @@ goog.ui.Component = function(opt_domHelper) {
   this.rightToLeft_ = goog.ui.Component.defaultRightToLeft_;
 };
 goog.inherits(goog.ui.Component, goog.events.EventTarget);
+
+
+/**
+ * @define {boolean} Whether to support calling decorate with an element that is
+ *     not yet in the document. If true, we check if the element is in the
+ *     document, and avoid calling enterDocument if it isn't. If false, we
+ *     maintain legacy behavior (always call enterDocument from decorate).
+ */
+goog.ui.Component.ALLOW_DETACHED_DECORATION = false;
 
 
 /**
@@ -496,8 +506,9 @@ goog.ui.Component.prototype.getElementStrict = function() {
  * does not actually change which element is rendered, only the element that is
  * associated with this UI component.
  *
+ * This should only be used by subclasses and its associated renderers.
+ *
  * @param {Element} element Root element for the component.
- * @protected
  */
 goog.ui.Component.prototype.setElementInternal = function(element) {
   this.element_ = element;
@@ -697,7 +708,12 @@ goog.ui.Component.prototype.render_ = function(opt_parentElement,
 
 
 /**
- * Decorates the element for the UI component.
+ * Decorates the element for the UI component. If the element is in the
+ * document, the enterDocument method will be called.
+ *
+ * If goog.ui.Component.ALLOW_DETACHED_DECORATION is false, the caller must
+ * pass an element that is in the document.
+ *
  * @param {Element} element Element to decorate.
  */
 goog.ui.Component.prototype.decorate = function(element) {
@@ -707,14 +723,19 @@ goog.ui.Component.prototype.decorate = function(element) {
     this.wasDecorated_ = true;
 
     // Set the DOM helper of the component to match the decorated element.
-    if (!this.dom_ ||
-        this.dom_.getDocument() != goog.dom.getOwnerDocument(element)) {
+    var doc = goog.dom.getOwnerDocument(element);
+    if (!this.dom_ || this.dom_.getDocument() != doc) {
       this.dom_ = goog.dom.getDomHelper(element);
     }
 
     // Call specific component decorate logic.
     this.decorateInternal(element);
-    this.enterDocument();
+
+    // If supporting detached decoration, check that element is in doc.
+    if (!goog.ui.Component.ALLOW_DETACHED_DECORATION ||
+        goog.dom.contains(doc, element)) {
+      this.enterDocument();
+    }
   } else {
     throw Error(goog.ui.Component.Error.DECORATE_INVALID);
   }
@@ -764,6 +785,9 @@ goog.ui.Component.prototype.enterDocument = function() {
   this.inDocument_ = true;
 
   // Propagate enterDocument to child components that have a DOM, if any.
+  // If a child was decorated before entering the document (permitted when
+  // goog.ui.Component.ALLOW_DETACHED_DECORATION is true), its enterDocument
+  // will be called here.
   this.forEachChild(function(child) {
     if (!child.isInDocument() && child.getElement()) {
       child.enterDocument();
